@@ -1,7 +1,17 @@
 require('dotenv').config();
 
-const { APP_NAME, APP_VERSION, APP_DESCRIPTION, APP_PORT, APP_ENV, APP_KEY } =
-  process.env;
+const {
+  APP_NAME,
+  APP_VERSION,
+  APP_DESCRIPTION,
+  APP_PORT,
+  APP_ENV,
+  APP_KEY,
+  STORMGLASS_URI,
+  STORMGLASS_KEY,
+  STORMGLASS_SOURCE,
+  STORMGLASS_PARAMS,
+} = process.env;
 
 const env = {
   app: {
@@ -11,6 +21,12 @@ const env = {
     port: APP_PORT || '3000',
     env: APP_ENV || 'local',
     key: APP_KEY || '',
+  },
+  stormGlass: {
+    uri: STORMGLASS_URI || '',
+    key: STORMGLASS_KEY || '',
+    params: STORMGLASS_PARAMS || '',
+    source: STORMGLASS_SOURCE || 'noaa',
   },
 };
 
