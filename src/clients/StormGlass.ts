@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosStatic } from 'axios';
+import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
 import env from '@src/config/env';
 import {
   ForecastPoint,
@@ -18,7 +18,7 @@ class StormGlass {
     },
   };
 
-  constructor(protected request: AxiosStatic) {}
+  constructor(protected request: AxiosStatic = axios) {}
 
   public async featchPoints(
     latitude: number,

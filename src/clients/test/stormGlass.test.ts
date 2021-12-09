@@ -7,29 +7,24 @@ import stormglassIncompletePoint from '@test/fixtures/stormglass_incomplete_weat
 jest.mock('axios');
 
 describe('StormGlass client', () => {
-  it('should return the normalized forecast from the StormGlass service', async () => {
-    const latitude = -33.792726;
-    const longitude = 151.289824;
+  const mockAxios = axios as jest.Mocked<typeof axios>;
 
-    axios.get = jest
-      .fn()
-      .mockResolvedValue({ data: stormGlassWeatherPointFixture });
+  const latituteFake = -33.792726;
+  const longitudeFake = 151.289824;
+
+  it('should return the normalized forecast from the StormGlass service', async () => {
+    mockAxios.get.mockResolvedValue({ data: stormGlassWeatherPointFixture });
 
     const stormGlass = new StormGlass(axios);
-    const response = await stormGlass.featchPoints(latitude, longitude);
+    const response = await stormGlass.featchPoints(latituteFake, longitudeFake);
     expect(response).toEqual(stormglassNormalizedResponseFixture);
   });
 
   it('should exclude incomplete data points', async () => {
-    const latitude = -33.792726;
-    const longitude = 151.289824;
-
-    axios.get = jest
-      .fn()
-      .mockResolvedValue({ data: stormglassIncompletePoint });
+    mockAxios.get.mockResolvedValue({ data: stormglassIncompletePoint });
 
     const stormGlass = new StormGlass(axios);
-    const response = await stormGlass.featchPoints(latitude, longitude);
+    const response = await stormGlass.featchPoints(latituteFake, longitudeFake);
 
     expect(response).toEqual([]);
   });
