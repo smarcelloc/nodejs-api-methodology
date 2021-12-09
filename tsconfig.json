@@ -5,6 +5,10 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./src/*"],
+      "@test/*": ["./test/*"]
+    },
     "outDir": "./dist",
     "rootDirs": ["./src", "./test"],
     "newLine": "lf",

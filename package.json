@@ -7,6 +7,9 @@
   "author": "Marcello Silvério",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts"
+  },
   "devDependencies": {
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",
