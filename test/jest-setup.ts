@@ -1,0 +1,10 @@
+import SetupServer from '@src/server';
+import supertest from 'supertest';
+
+beforeAll(async () => {
+  await SetupServer.init();
+  global.testRequest = supertest(SetupServer.getApp());
+});
+
+// Close Connection mongoDB
+// afterAll(async () => await SetupServer.close());
