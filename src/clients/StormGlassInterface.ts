@@ -27,3 +27,14 @@ export interface ForecastPoint {
   windDirection: number;
   windSpeed: number;
 }
+
+export interface StormGlassValidatePoint {
+  time: string;
+  swellDirection: StormGlassPointSource;
+  swellHeight: StormGlassPointSource;
+  swellPeriod: StormGlassPointSource;
+  waveDirection: StormGlassPointSource;
+  waveHeight: StormGlassPointSource;
+  windDirection: StormGlassPointSource;
+  windSpeed: StormGlassPointSource;
+}

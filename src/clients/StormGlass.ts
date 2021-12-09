@@ -3,6 +3,7 @@ import env from '@src/config/env';
 import {
   ForecastPoint,
   StormGlassForecastResponse,
+  StormGlassValidatePoint,
 } from './StormGlassInterface';
 
 class StormGlass {
@@ -37,7 +38,7 @@ class StormGlass {
   private normalizeResponse(
     points: StormGlassForecastResponse
   ): ForecastPoint[] {
-    return points.hours.map((point) => ({
+    return points.hours.filter(this.isValidPoint.bind(this)).map((point) => ({
       time: point.time,
       swellDirection: point.swellDirection[this.source],
       swellHeight: point.swellHeight[this.source],
@@ -47,6 +48,19 @@ class StormGlass {
       windDirection: point.windDirection[this.source],
       windSpeed: point.windSpeed[this.source],
     }));
+  }
+
+  private isValidPoint(point: Partial<StormGlassValidatePoint>): boolean {
+    return !!(
+      point.time &&
+      point.swellDirection?.[this.source] &&
+      point.swellHeight?.[this.source] &&
+      point.swellPeriod?.[this.source] &&
+      point.waveDirection?.[this.source] &&
+      point.waveHeight?.[this.source] &&
+      point.windDirection?.[this.source] &&
+      point.windSpeed?.[this.source]
+    );
   }
 }
 
