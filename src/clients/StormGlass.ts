@@ -1,5 +1,9 @@
 import { AxiosRequestConfig, AxiosStatic } from 'axios';
 import env from '@src/config/env';
+import {
+  ForecastPoint,
+  StormGlassForecastResponse,
+} from './StormGlassInterface';
 
 class StormGlass {
   readonly uri = env.stormGlass.uri;
@@ -15,11 +19,34 @@ class StormGlass {
 
   constructor(protected request: AxiosStatic) {}
 
-  public featchPoints(latitude: number, longitude: number): Promise<{}> {
+  public async featchPoints(
+    latitude: number,
+    longitude: number
+  ): Promise<ForecastPoint[]> {
     const url = `${this.uri}/weather/point?lat=${latitude}&lng=${longitude}&params=${this.params}&source=${this.source}`;
-    this.request.get(url, this.requestConfig);
+    const response = await this.request.get<StormGlassForecastResponse>(
+      url,
+      this.requestConfig
+    );
 
-    return Promise.resolve({});
+    const responseNormalized = this.normalizeResponse(response.data);
+
+    return Promise.resolve(responseNormalized);
+  }
+
+  private normalizeResponse(
+    points: StormGlassForecastResponse
+  ): ForecastPoint[] {
+    return points.hours.map((point) => ({
+      time: point.time,
+      swellDirection: point.swellDirection[this.source],
+      swellHeight: point.swellHeight[this.source],
+      swellPeriod: point.swellPeriod[this.source],
+      waveDirection: point.waveDirection[this.source],
+      waveHeight: point.waveHeight[this.source],
+      windDirection: point.windDirection[this.source],
+      windSpeed: point.windSpeed[this.source],
+    }));
   }
 }
 
