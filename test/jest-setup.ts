@@ -6,4 +6,5 @@ beforeAll(async () => {
   global.testRequest = supertest(SetupServer.getApp());
 });
 
-afterAll(async () => await SetupServer.close());
+// Close Connection mongoDB
+// afterAll(async () => await SetupServer.close());
