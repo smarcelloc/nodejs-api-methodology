@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
+import * as HTTPUtil from '@src/util/request';
 import env from '@src/config/env';
 import {
   ForecastPoint,
@@ -13,13 +13,13 @@ class StormGlass {
   readonly params = env.stormGlass.params;
   readonly key = env.stormGlass.key;
 
-  readonly requestConfig: AxiosRequestConfig = {
+  readonly requestConfig: HTTPUtil.RequestConfig = {
     headers: {
       Authorization: this.key,
     },
   };
 
-  constructor(protected request: AxiosStatic = axios) {}
+  constructor(protected request = new HTTPUtil.Request()) {}
 
   public async fetchPoints(
     latitude: number,
