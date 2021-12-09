@@ -1,0 +1,10 @@
+{
+  "name": "api-surf",
+  "description": "API to calculate the best surf condition among several beaches make Node Typescript and MongoDB.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:smarcelloc/api-surf.git",
+  "author": "Marcello Silvério",
+  "license": "MIT",
+  "private": true
+}
