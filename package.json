@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "test:unit": "jest",
+    "test:functional": "jest --projects ./test --forceExit --runInBand",
     "style": "prettier --check './src/**/*.ts' './test/**/*.ts'",
     "style:fix": "prettier --write './src/**/*.ts' './test/**/*.ts'",
     "lint": "eslint './src/**/*.ts' './test/**/*.ts'",
