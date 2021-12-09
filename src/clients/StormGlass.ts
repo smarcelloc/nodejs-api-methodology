@@ -36,7 +36,7 @@ class StormGlass {
 
       return Promise.resolve(responseNormalized);
     } catch (error: any) {
-      if (error.response && error.response.status) {
+      if (HTTPUtil.Request.isRequestError(error)) {
         throw new StormGlassResponseError(
           `Error: ${JSON.stringify(error.response.data)} Code: ${
             error.response.status

@@ -8,6 +8,9 @@ jest.mock('@src/util/request');
 
 describe('StormGlass client', () => {
   const mockRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
+  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<
+    typeof HTTPUtil.Request
+  >;
 
   const latituteFake = -33.792726;
   const longitudeFake = 151.289824;
@@ -52,6 +55,8 @@ describe('StormGlass client', () => {
         data: { errors: ['Rate Limit reached'] },
       },
     });
+
+    MockedRequestClass.isRequestError.mockReturnValue(true);
 
     const stormGlass = new StormGlass(mockRequest);
 
