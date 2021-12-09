@@ -5,6 +5,7 @@ import {
   StormGlassForecastResponse,
   StormGlassValidatePoint,
 } from './StormGlassInterface';
+import { ClientRequestError, StormGlassResponseError } from './StormGlassError';
 
 class StormGlass {
   readonly uri = env.stormGlass.uri;
@@ -20,19 +21,31 @@ class StormGlass {
 
   constructor(protected request: AxiosStatic = axios) {}
 
-  public async featchPoints(
+  public async fetchPoints(
     latitude: number,
     longitude: number
   ): Promise<ForecastPoint[]> {
-    const url = `${this.uri}/weather/point?lat=${latitude}&lng=${longitude}&params=${this.params}&source=${this.source}`;
-    const response = await this.request.get<StormGlassForecastResponse>(
-      url,
-      this.requestConfig
-    );
+    try {
+      const url = `${this.uri}/weather/point?lat=${latitude}&lng=${longitude}&params=${this.params}&source=${this.source}`;
+      const response = await this.request.get<StormGlassForecastResponse>(
+        url,
+        this.requestConfig
+      );
 
-    const responseNormalized = this.normalizeResponse(response.data);
+      const responseNormalized = this.normalizeResponse(response.data);
 
-    return Promise.resolve(responseNormalized);
+      return Promise.resolve(responseNormalized);
+    } catch (error: any) {
+      if (error.response && error.response.status) {
+        throw new StormGlassResponseError(
+          `Error: ${JSON.stringify(error.response.data)} Code: ${
+            error.response.status
+          }`
+        );
+      }
+
+      throw new ClientRequestError(error.message);
+    }
   }
 
   private normalizeResponse(
