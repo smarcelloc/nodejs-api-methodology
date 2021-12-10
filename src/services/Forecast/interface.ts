@@ -18,3 +18,8 @@ export interface Beach {
 }
 
 export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}
+
+export interface TimeForecast {
+  time: string;
+  forecast: BeachForecast[];
+}
