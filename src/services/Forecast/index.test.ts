@@ -23,7 +23,7 @@ describe('Forecast Service', () => {
   it('should return the forecast for a list of beaches', async () => {
     mockedStormGlassService.fetchPoints.mockResolvedValue(stormGlassNormalizedResponseFixture);
 
-    const forecast = new ForecastService();
+    const forecast = new ForecastService(mockedStormGlassService);
     const beachesWithRating = await forecast.processForecastForBeaches(beaches);
 
     expect(beachesWithRating).toEqual(forecastListBeaches);
@@ -39,7 +39,7 @@ describe('Forecast Service', () => {
   it('should throw internal processing error when something goes wrong during the rating process', async () => {
     mockedStormGlassService.fetchPoints.mockRejectedValue('Error fetching data');
 
-    const forecast = new ForecastService(new StormGlass());
+    const forecast = new ForecastService(mockedStormGlassService);
     await expect(forecast.processForecastForBeaches(beaches)).rejects.toThrowError(
       ForecastProcessingServerError
     );
