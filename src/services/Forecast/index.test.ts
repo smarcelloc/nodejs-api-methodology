@@ -1,7 +1,9 @@
 import StormGlass from '@src/clients/StormGlass';
 import stormGlassNormalizedResponseFixture from '@test/fixtures/stormglass_normalized_response_3_hours.json';
+import ForecastService from '.';
+import { Beach, BeachPosition } from './interface';
 
-jest.mock('@src/clients/stormGlass');
+jest.mock('@src/clients/StormGlass');
 
 describe('Forecast Service', () => {
   it('should return the forecast for a list of beaches', async () => {
@@ -9,12 +11,12 @@ describe('Forecast Service', () => {
       .fn()
       .mockResolvedValue(stormGlassNormalizedResponseFixture);
 
-    const beaches = [
+    const beaches: Beach[] = [
       {
         lat: -33.792726,
         lng: 151.289824,
         name: 'Manly',
-        position: 'E',
+        position: BeachPosition.EAST,
         user: 'some-id',
       },
     ];
