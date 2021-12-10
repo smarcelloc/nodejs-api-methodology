@@ -1,11 +1,7 @@
 import * as HTTPUtil from '@src/util/request';
 import env from '@src/config/env';
-import {
-  ForecastPoint,
-  StormGlassForecastResponse,
-  StormGlassValidatePoint,
-} from './StormGlassInterface';
-import { ClientRequestError, StormGlassResponseError } from './StormGlassError';
+import { ForecastPoint, StormGlassForecastResponse, StormGlassValidatePoint } from './interfaces';
+import { ClientRequestError, StormGlassResponseError } from './error';
 
 class StormGlass {
   readonly uri = env.stormGlass.uri;
