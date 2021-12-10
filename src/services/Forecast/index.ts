@@ -3,9 +3,9 @@ import { ForecastPoint } from '@src/clients/StormGlass/interfaces';
 import { Beach, BeachForecast, TimeForecast } from './interface';
 
 class ForecastService {
-  constructor(private stormGlass: StormGlass) {}
+  constructor(private stormGlass = new StormGlass()) {}
 
-  public async processForecastForBeaches(beaches: Beach[]): Promise<any[]> {
+  public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
     const pointsWithCorrectSources: BeachForecast[] = [];
     for (const beach of beaches) {
       const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);
@@ -14,10 +14,7 @@ class ForecastService {
 
     const forecastByTime: TimeForecast[] = [];
     for (const point of pointsWithCorrectSources) {
-      forecastByTime.push({
-        time: point.time,
-        forecast: [point],
-      });
+      forecastByTime.push(this.mapForecastByTime(point));
     }
 
     return forecastByTime;
@@ -32,6 +29,13 @@ class ForecastService {
       rating: 1, // need to be implemented
       ...point,
     }));
+  }
+
+  private mapForecastByTime(point: BeachForecast): TimeForecast {
+    return {
+      time: point.time,
+      forecast: [point],
+    };
   }
 }
 
