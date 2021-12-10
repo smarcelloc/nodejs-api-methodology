@@ -21,16 +21,10 @@ class StormGlass {
 
   constructor(protected request = new HTTPUtil.Request()) {}
 
-  public async fetchPoints(
-    latitude: number,
-    longitude: number
-  ): Promise<ForecastPoint[]> {
+  public async fetchPoints(latitude: number, longitude: number): Promise<ForecastPoint[]> {
     try {
       const url = `${this.uri}/weather/point?lat=${latitude}&lng=${longitude}&params=${this.params}&source=${this.source}`;
-      const response = await this.request.get<StormGlassForecastResponse>(
-        url,
-        this.requestConfig
-      );
+      const response = await this.request.get<StormGlassForecastResponse>(url, this.requestConfig);
 
       const responseNormalized = this.normalizeResponse(response.data);
 
@@ -38,9 +32,7 @@ class StormGlass {
     } catch (error: any) {
       if (HTTPUtil.Request.isRequestError(error)) {
         throw new StormGlassResponseError(
-          `Error: ${JSON.stringify(error.response.data)} Code: ${
-            error.response.status
-          }`
+          `Error: ${JSON.stringify(error.response.data)} Code: ${error.response.status}`
         );
       }
 
@@ -48,9 +40,7 @@ class StormGlass {
     }
   }
 
-  private normalizeResponse(
-    points: StormGlassForecastResponse
-  ): ForecastPoint[] {
+  private normalizeResponse(points: StormGlassForecastResponse): ForecastPoint[] {
     return points.hours.filter(this.isValidPoint.bind(this)).map((point) => ({
       time: point.time,
       swellDirection: point.swellDirection[this.source],
