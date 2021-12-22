@@ -1,12 +1,15 @@
 import StormGlass from '@src/clients/StormGlass';
 import { ForecastPoint } from '@src/clients/StormGlass/interfaces';
+
 import { ForecastProcessingServerError } from './error';
 import { Beach, BeachForecast, TimeForecast } from './interface';
 
 class ForecastService {
   constructor(private stormGlass = new StormGlass()) {}
 
-  public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
+  public async processForecastForBeaches(
+    beaches: Beach[]
+  ): Promise<TimeForecast[]> {
     try {
       const pointsWithCorrectSources: BeachForecast[] = [];
       for (const beach of beaches) {
@@ -25,7 +28,10 @@ class ForecastService {
     }
   }
 
-  private enrichBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[] {
+  private enrichBeachData(
+    points: ForecastPoint[],
+    beach: Beach
+  ): BeachForecast[] {
     return points.map((point) => ({
       lat: beach.lat,
       lng: beach.lng,

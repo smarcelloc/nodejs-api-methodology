@@ -1,5 +1,6 @@
 import { Server } from '@overnightjs/core';
 import { Application, json } from 'express';
+
 import ForecastController from '@src/controllers/ForecastController';
 
 require('dotenv').config();

@@ -1,6 +1,8 @@
 import StormGlass from '@src/clients/StormGlass';
-import stormGlassNormalizedResponseFixture from '@test/fixtures/stormglass_normalized_response_3_hours.json';
+
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
+import stormGlassNormalizedResponseFixture from '@test/fixtures/stormglass_normalized_response_3_hours.json';
+
 import ForecastService from '.';
 import { ForecastProcessingServerError } from './error';
 import { Beach, BeachPosition } from './interface';
@@ -21,7 +23,9 @@ describe('Forecast Service', () => {
   ];
 
   it('should return the forecast for a list of beaches', async () => {
-    mockedStormGlassService.fetchPoints.mockResolvedValue(stormGlassNormalizedResponseFixture);
+    mockedStormGlassService.fetchPoints.mockResolvedValue(
+      stormGlassNormalizedResponseFixture
+    );
 
     const forecast = new ForecastService(mockedStormGlassService);
     const beachesWithRating = await forecast.processForecastForBeaches(beaches);
@@ -37,11 +41,13 @@ describe('Forecast Service', () => {
   });
 
   it('should throw internal processing error when something goes wrong during the rating process', async () => {
-    mockedStormGlassService.fetchPoints.mockRejectedValue('Error fetching data');
+    mockedStormGlassService.fetchPoints.mockRejectedValue(
+      'Error fetching data'
+    );
 
     const forecast = new ForecastService(mockedStormGlassService);
-    await expect(forecast.processForecastForBeaches(beaches)).rejects.toThrowError(
-      ForecastProcessingServerError
-    );
+    await expect(
+      forecast.processForecastForBeaches(beaches)
+    ).rejects.toThrowError(ForecastProcessingServerError);
   });
 });

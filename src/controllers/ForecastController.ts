@@ -1,5 +1,6 @@
 import { Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
+
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 
 @Controller('forecast')

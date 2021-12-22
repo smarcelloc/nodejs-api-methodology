@@ -1,5 +1,6 @@
-import SetupServer from '@src/server';
 import supertest from 'supertest';
+
+import SetupServer from '@src/server';
 
 beforeAll(async () => {
   await SetupServer.init();
