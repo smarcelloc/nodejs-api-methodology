@@ -11,6 +11,7 @@ const {
   STORMGLASS_KEY,
   STORMGLASS_SOURCE,
   STORMGLASS_PARAMS,
+  MONGODB_URI,
 } = process.env;
 
 const env = {
@@ -27,6 +28,9 @@ const env = {
     key: STORMGLASS_KEY || '',
     params: STORMGLASS_PARAMS || '',
     source: STORMGLASS_SOURCE || 'noaa',
+  },
+  mongoDB: {
+    uri: MONGODB_URI || '',
   },
 };
 
