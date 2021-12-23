@@ -1,4 +1,8 @@
+import { Beach } from '@src/model/Beach';
+
 describe('Beaches functional tests', () => {
+  beforeAll(async () => await Beach.deleteMany());
+
   it('should create a beach with success', async () => {
     const newBeach = {
       lat: -33.792726,
