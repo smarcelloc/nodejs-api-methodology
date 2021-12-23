@@ -1,6 +1,7 @@
 import { Server } from '@overnightjs/core';
 import { Application, json } from 'express';
 
+import BeachController from '@src/controllers/BeachController';
 import ForecastController from '@src/controllers/ForecastController';
 import * as database from '@src/util/database';
 
@@ -20,7 +21,6 @@ class SetupServer extends Server {
 
   public async close(): Promise<void> {
     await database.close();
-    this.app.removeAllListeners();
   }
 
   private middlewares(): void {
@@ -28,14 +28,14 @@ class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    this.addControllers([new ForecastController()]);
+    this.addControllers([new ForecastController(), new BeachController()]);
   }
 
-  private start(port: string): void {
-    this.app.listen(port, () => {
-      process.stdout.write(`\n[OK] Server listening on port: ${port}\n`);
-    });
-  }
+  // private start(port: string): void {
+  //   this.app.listen(port, () => {
+  //     process.stdout.write(`\n[OK] Server listening on port: ${port}\n`);
+  //   });
+  // }
 
   private async setupDatabase(): Promise<void> {
     await database.connect();
