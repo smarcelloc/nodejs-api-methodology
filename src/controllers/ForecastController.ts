@@ -1,13 +1,23 @@
 import { Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 
-import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
+import { Beach } from '@src/model/Beach';
+import ForecastService from '@src/services/ForecastService';
+
+const forecastService = new ForecastService();
 
 @Controller('forecast')
 class ForecastController {
   @Get('')
-  public getForecastForgeLoggedUser(_: Request, res: Response): void {
-    res.status(200).json(forecastListBeaches);
+  public async getForecastForgeLoggedUser(
+    _: Request,
+    res: Response
+  ): Promise<void> {
+    const beaches = await Beach.find({});
+    const forecastData = await forecastService.processForecastForBeaches(
+      beaches
+    );
+    res.status(200).send(forecastData);
   }
 }
 
