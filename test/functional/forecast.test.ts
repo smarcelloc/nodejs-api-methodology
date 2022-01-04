@@ -1,6 +1,6 @@
 import nock from 'nock';
 
-import { Beach, BeachPosition, BeachType } from '@src/model/Beach';
+import { Beach, BeachPosition, BeachType } from '@src/models/Beach';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';

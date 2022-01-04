@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
-import { BeachType } from '@src/model/Beach';
+import { BeachType } from '@src/models/Beach';
 import InternalError from '@src/util/errors/InternalError';
 
 export interface BeachForecast extends BeachType, ForecastPoint {}
