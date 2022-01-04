@@ -1,6 +1,6 @@
 import nock from 'nock';
 
-import { Beach, BeachPosition, BeachProps } from '@src/model/Beach';
+import { Beach, BeachPosition, BeachType } from '@src/model/Beach';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
@@ -9,7 +9,7 @@ describe('Beach forecast functional tests', () => {
   beforeEach(async () => {
     await Beach.deleteMany({});
 
-    const defaultBeach: BeachProps = {
+    const defaultBeach: BeachType = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',

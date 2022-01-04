@@ -8,7 +8,7 @@ export enum BeachPosition {
   NOUTH = 'N',
 }
 
-export interface BeachProps {
+export interface BeachType {
   _id?: string;
   lat: number;
   lng: number;
@@ -46,5 +46,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-interface BeachModel extends Omit<BeachProps, '_id'>, Document {}
+interface BeachModel extends Omit<BeachType, '_id'>, Document {}
 export const Beach: Model<BeachModel> = mongoose.model('Beach', schema);
