@@ -6,8 +6,6 @@ class InternalError extends Error {
   ) {
     super(message);
     this.name = this.constructor.name;
-    this.code = code;
-    this.details = details;
     Error.captureStackTrace(this, this.constructor);
   }
 }

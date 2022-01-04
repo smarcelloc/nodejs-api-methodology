@@ -1,14 +1,26 @@
-import StormGlass from '@src/clients/StormGlass';
-import { ForecastPoint } from '@src/clients/StormGlass/interfaces';
+/* eslint-disable no-unused-vars */
+import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
+import { BeachType } from '@src/model/Beach';
+import InternalError from '@src/util/errors/InternalError';
 
-import { ForecastProcessingServerError } from './error';
-import { Beach, BeachForecast, TimeForecast } from './interface';
+export interface BeachForecast extends BeachType, ForecastPoint {}
+
+export interface TimeForecast {
+  time: string;
+  forecast: BeachForecast[];
+}
+
+export class ForecastProcessingInternalError extends InternalError {
+  constructor(message: string) {
+    super(`Unexpected error during the forecast processing: ${message}`);
+  }
+}
 
 class ForecastService {
   constructor(private stormGlass = new StormGlass()) {}
 
   public async processForecastForBeaches(
-    beaches: Beach[]
+    beaches: BeachType[]
   ): Promise<TimeForecast[]> {
     try {
       const pointsWithCorrectSources: BeachForecast[] = [];
@@ -24,13 +36,13 @@ class ForecastService {
 
       return forecastByTime;
     } catch (error: any) {
-      throw new ForecastProcessingServerError(error.message);
+      throw new ForecastProcessingInternalError(error.message);
     }
   }
 
   private enrichBeachData(
     points: ForecastPoint[],
-    beach: Beach
+    beach: BeachType
   ): BeachForecast[] {
     return points.map((point) => ({
       lat: beach.lat,
