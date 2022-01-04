@@ -2,9 +2,11 @@ import supertest from 'supertest';
 
 import SetupServer from '@src/server';
 
+const server = new SetupServer();
+
 beforeAll(async () => {
-  await SetupServer.init();
-  global.testRequest = supertest(SetupServer.getApp());
+  await server.init();
+  global.testRequest = supertest(server.getApp());
 });
 
-afterAll(async () => await SetupServer.close());
+afterAll(async () => await server.close());

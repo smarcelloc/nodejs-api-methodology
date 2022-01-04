@@ -19,7 +19,7 @@ const env = {
     name: APP_NAME || 'API Nameless',
     version: APP_VERSION || '0.0.0',
     description: APP_DESCRIPTION || '',
-    port: APP_PORT || '3000',
+    port: parseInt(APP_PORT || '3000'),
     env: APP_ENV || 'local',
     key: APP_KEY || '',
   },
