@@ -1,20 +1,10 @@
 /* eslint-disable no-unused-vars */
 import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
+import { BeachProps } from '@src/model/Beach';
 import InternalError from '@src/util/errors/InternalError';
 
-export enum BeachPosition {
-  SOUTH = 'S',
-  EAST = 'E',
-  WEST = 'W',
-  NOUTH = 'N',
-}
-
-export interface Beach {
-  lat: number;
-  lng: number;
-  name: string;
-  position: BeachPosition;
-  user: string;
+export interface Beach extends BeachProps {
+  user?: string;
 }
 
 export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}
