@@ -13,11 +13,15 @@ class ForecastController {
     _: Request,
     res: Response
   ): Promise<void> {
-    const beaches = await Beach.find({});
-    const forecastData = await forecastService.processForecastForBeaches(
-      beaches
-    );
-    res.status(200).send(forecastData);
+    try {
+      const beaches = await Beach.find({});
+      const forecastData = await forecastService.processForecastForBeaches(
+        beaches
+      );
+      res.status(200).send(forecastData);
+    } catch (error: any) {
+      res.status(500).send({ error: error.message });
+    }
   }
 }
 
