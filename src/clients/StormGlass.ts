@@ -1,12 +1,61 @@
 import env from '@src/config/env';
+import InternalError from '@src/util/errors/InternalError';
 import * as HTTPUtil from '@src/util/request';
 
-import { ClientRequestError, StormGlassResponseError } from './error';
-import {
-  ForecastPoint,
-  StormGlassForecastResponse,
-  StormGlassValidatePoint,
-} from './interfaces';
+interface StormGlassPointSource {
+  [key: string]: number;
+}
+
+export interface StormGlassForecastResponse {
+  hours: [
+    {
+      time: string;
+      swellDirection: StormGlassPointSource;
+      swellHeight: StormGlassPointSource;
+      swellPeriod: StormGlassPointSource;
+      waveDirection: StormGlassPointSource;
+      waveHeight: StormGlassPointSource;
+      windDirection: StormGlassPointSource;
+      windSpeed: StormGlassPointSource;
+    }
+  ];
+}
+
+export interface ForecastPoint {
+  swellDirection: number;
+  swellHeight: number;
+  swellPeriod: number;
+  time: string;
+  waveDirection: number;
+  waveHeight: number;
+  windDirection: number;
+  windSpeed: number;
+}
+
+export interface StormGlassValidatePoint {
+  time: string;
+  swellDirection: StormGlassPointSource;
+  swellHeight: StormGlassPointSource;
+  swellPeriod: StormGlassPointSource;
+  waveDirection: StormGlassPointSource;
+  waveHeight: StormGlassPointSource;
+  windDirection: StormGlassPointSource;
+  windSpeed: StormGlassPointSource;
+}
+
+export class ClientRequestInternalError extends InternalError {
+  constructor(message: string) {
+    super(
+      `Unexpected error when trying to communicate to StormGlass: ${message}`
+    );
+  }
+}
+
+export class StormGlassResponseInternalError extends InternalError {
+  constructor(message: string) {
+    super(`Unexpected error returned by the StormGlass service: ${message}`);
+  }
+}
 
 class StormGlass {
   readonly uri = env.stormGlass.uri;
@@ -38,14 +87,14 @@ class StormGlass {
       return Promise.resolve(responseNormalized);
     } catch (error: any) {
       if (HTTPUtil.Request.isRequestError(error)) {
-        throw new StormGlassResponseError(
+        throw new StormGlassResponseInternalError(
           `Error: ${JSON.stringify(error.response.data)} Code: ${
             error.response.status
           }`
         );
       }
 
-      throw new ClientRequestError(error.message);
+      throw new ClientRequestInternalError(error.message);
     }
   }
 

@@ -1,8 +1,34 @@
-import StormGlass from '@src/clients/StormGlass';
-import { ForecastPoint } from '@src/clients/StormGlass/interfaces';
+/* eslint-disable no-unused-vars */
+import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
+import InternalError from '@src/util/errors/InternalError';
 
-import { ForecastProcessingServerError } from './error';
-import { Beach, BeachForecast, TimeForecast } from './interface';
+export enum BeachPosition {
+  SOUTH = 'S',
+  EAST = 'E',
+  WEST = 'W',
+  NOUTH = 'N',
+}
+
+export interface Beach {
+  lat: number;
+  lng: number;
+  name: string;
+  position: BeachPosition;
+  user: string;
+}
+
+export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}
+
+export interface TimeForecast {
+  time: string;
+  forecast: BeachForecast[];
+}
+
+export class ForecastProcessingInternalError extends InternalError {
+  constructor(message: string) {
+    super(`Unexpected error during the forecast processing: ${message}`);
+  }
+}
 
 class ForecastService {
   constructor(private stormGlass = new StormGlass()) {}
@@ -24,7 +50,7 @@ class ForecastService {
 
       return forecastByTime;
     } catch (error: any) {
-      throw new ForecastProcessingServerError(error.message);
+      throw new ForecastProcessingInternalError(error.message);
     }
   }
 
