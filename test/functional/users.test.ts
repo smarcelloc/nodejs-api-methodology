@@ -24,7 +24,10 @@ describe('Users functional tests', () => {
     const response = await global.testRequest.post('/users').send(user);
     expect(response.status).toBe(422);
     expect(response.body).toEqual({
+      code: 422,
       error: 'User validation failed: password: Path `password` is required.',
     });
   });
+
+  it.skip('Should return 409 when the email already exists', async () => {});
 });
