@@ -1,22 +1,22 @@
 import nock from 'nock';
 
-import { Beach, BeachPosition, BeachType } from '@src/models/Beach';
+import BeachModel, { Beach, BeachPosition } from '@src/models/Beach';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
 
 describe('Beach forecast functional tests', () => {
   beforeEach(async () => {
-    await Beach.deleteMany({});
+    await BeachModel.deleteMany({});
 
-    const defaultBeach: BeachType = {
+    const defaultBeach: Beach = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
       position: BeachPosition.EAST,
     };
 
-    const beach = new Beach(defaultBeach);
+    const beach = new BeachModel(defaultBeach);
     await beach.save();
   });
 

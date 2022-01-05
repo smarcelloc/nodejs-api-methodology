@@ -1,13 +1,13 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface UserType {
+export interface User {
   _id?: string;
   name: string;
   email: string;
   password: string;
 }
 
-const schema = new mongoose.Schema(
+const schema = new mongoose.Schema<User>(
   {
     name: {
       type: String,
@@ -33,5 +33,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-interface UserModel extends Omit<UserType, '_id'>, Document {}
-export const User: Model<UserModel> = mongoose.model('User', schema);
+const UserModel = mongoose.model('User', schema);
+export default UserModel;

@@ -5,10 +5,8 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "test:unit": "jest",
     "test:functional": "jest --projects ./test --forceExit --runInBand",
-    "style": "prettier --check './src/**/*.ts' './test/**/*.ts'",
-    "style:fix": "prettier --write './src/**/*.ts' './test/**/*.ts'",
     "lint": "eslint './src/**/*.ts' './test/**/*.ts'",
-    "lint:fix": "eslint --fix './src/**/*.ts' './test/**/*.ts'"
+    "lint:fix": "eslint --fix './src/**/*.ts', './test/**/*.ts'"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",

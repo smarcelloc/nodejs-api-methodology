@@ -1,12 +1,12 @@
-import { UserType, User } from '@src/models/User';
+import UserModel, { User } from '@src/models/User';
 
 describe('Users functional tests', () => {
   beforeEach(async () => {
-    await User.deleteMany({});
+    await UserModel.deleteMany({});
   });
 
   it('should successfully save a new user', async () => {
-    const user: UserType = {
+    const user: User = {
       name: 'John Doe',
       email: 'john@mail.com',
       password: 'Password@123',

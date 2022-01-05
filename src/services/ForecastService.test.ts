@@ -1,5 +1,5 @@
 import StormGlass from '@src/clients/StormGlass';
-import { BeachPosition, BeachType } from '@src/models/Beach';
+import { BeachPosition, Beach } from '@src/models/Beach';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassNormalizedResponseFixture from '@test/fixtures/stormglass_normalized_response_3_hours.json';
@@ -11,7 +11,7 @@ jest.mock('@src/clients/StormGlass');
 describe('Forecast Service', () => {
   const mockedStormGlassService = new StormGlass() as jest.Mocked<StormGlass>;
 
-  const beaches: BeachType[] = [
+  const beaches: Beach[] = [
     {
       lat: -33.792726,
       lng: 151.289824,
@@ -35,7 +35,7 @@ describe('Forecast Service', () => {
 
   it('should return an empty list when the beaches array is empty', async () => {
     const forecastService = new ForecastService();
-    const beaches: BeachType[] = [];
+    const beaches: Beach[] = [];
     const response = await forecastService.processForecastForBeaches(beaches);
 
     expect(response).toEqual([]);
