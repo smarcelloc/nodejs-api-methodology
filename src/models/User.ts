@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import mongoose from 'mongoose';
 
 export interface User {
@@ -5,6 +6,10 @@ export interface User {
   name: string;
   email: string;
   password: string;
+}
+
+export enum CUSTOM_VALIDATION {
+  DUPLICATED = 'DUPLICATED',
 }
 
 const schema = new mongoose.Schema<User>(
@@ -32,6 +37,15 @@ const schema = new mongoose.Schema<User>(
       },
     },
   }
+);
+
+schema.path('email').validate(
+  async (email: string): Promise<boolean> => {
+    const emailCount = await mongoose.models.User.countDocuments({ email });
+    return !emailCount;
+  },
+  'already exists in the database.',
+  CUSTOM_VALIDATION.DUPLICATED
 );
 
 const UserModel = mongoose.model('User', schema);
