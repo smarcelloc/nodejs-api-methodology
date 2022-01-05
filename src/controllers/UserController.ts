@@ -1,10 +1,11 @@
 import { Controller, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 
+import BaseController from '@src/controllers/BaseController';
 import UserModel from '@src/models/User';
+
 @Controller('users')
-class UserController {
+class UserController extends BaseController {
   @Post()
   public async create(req: Request, res: Response) {
     try {
@@ -12,11 +13,7 @@ class UserController {
       const result = await user.save();
       res.status(201).send(result);
     } catch (error: any) {
-      if (error instanceof mongoose.Error.ValidationError) {
-        res.status(422).send({ error: error.message });
-      } else {
-        res.status(500).send({ error: 'Internal Server Error' });
-      }
+      this.sendCreateUpdateErrorResponse(res, error);
     }
   }
 }
