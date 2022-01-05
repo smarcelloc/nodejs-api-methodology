@@ -20,7 +20,7 @@ class ForecastController {
       );
       res.status(200).send(forecastData);
     } catch (error: any) {
-      res.status(500).send({ error: 'Something went wrong' });
+      res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 }
