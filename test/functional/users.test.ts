@@ -14,4 +14,17 @@ describe('Users functional tests', () => {
     expect(response.status).toBe(201);
     expect(response.body).toEqual(expect.objectContaining(user));
   });
+
+  it('Should return 422 when there is a validation error', async () => {
+    const user = {
+      name: 'John Doe',
+      email: 'john@mail.com',
+    };
+
+    const response = await global.testRequest.post('/users').send(user);
+    expect(response.status).toBe(422);
+    expect(response.body).toEqual({
+      error: 'User validation failed: password: Path `password` is required.',
+    });
+  });
 });
