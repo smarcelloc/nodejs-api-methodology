@@ -1,7 +1,7 @@
 import UserModel, { User } from '@src/models/User';
 
 describe('Users functional tests', () => {
-  beforeAll(async () => await UserModel.deleteMany());
+  beforeEach(async () => await UserModel.deleteMany());
 
   it('should successfully save a new user', async () => {
     const user: User = {
