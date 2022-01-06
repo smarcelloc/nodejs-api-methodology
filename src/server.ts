@@ -21,7 +21,7 @@ class SetupServer extends Server {
 
   public start(): void {
     this.app.listen(this.port, () => {
-      process.stdout.write(`\n[OK] Server listening on port: ${this.port}\n`);
+      console.info(`\n[OK] Server listening on port: ${this.port}\n`);
     });
   }
 
