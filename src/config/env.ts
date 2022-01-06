@@ -23,7 +23,7 @@ const env = {
     port: parseInt(APP_PORT || '3000'),
     env: APP_ENV || 'local',
     key: APP_KEY || '',
-    tokenExpiresIn: APP_TOKEN_EXPIRES_IN || '0',
+    tokenExpiresIn: APP_TOKEN_EXPIRES_IN || '',
   },
   stormGlass: {
     uri: STORMGLASS_URI || '',
