@@ -1,5 +1,10 @@
 /* eslint-disable no-unused-vars */
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, {
+  Document,
+  Model,
+  Schema,
+  SchemaDefinitionProperty,
+} from 'mongoose';
 
 export enum BeachPosition {
   SOUTH = 'S',
@@ -14,6 +19,7 @@ export interface Beach {
   lng: number;
   name: string;
   position: string;
+  userId: string | SchemaDefinitionProperty<string>;
 }
 
 interface BeachDocument extends Omit<Beach, '_id'>, Document {}
@@ -34,6 +40,11 @@ const schema = new mongoose.Schema<BeachDocument>(
     },
     position: {
       type: String,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },
