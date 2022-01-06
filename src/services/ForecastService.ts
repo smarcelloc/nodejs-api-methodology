@@ -2,9 +2,7 @@ import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
 import { Beach } from '@src/models/Beach';
 import InternalError from '@src/util/errors/InternalError';
 
-interface MyBeach extends Omit<Beach, 'userId'> {}
-
-export interface BeachForecast extends MyBeach, ForecastPoint {}
+export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint {}
 
 export interface TimeForecast {
   time: string;
@@ -21,7 +19,7 @@ class ForecastService {
   constructor(private stormGlass = new StormGlass()) {}
 
   public async processForecastForBeaches(
-    beaches: MyBeach[]
+    beaches: Beach[]
   ): Promise<TimeForecast[]> {
     try {
       const pointsWithCorrectSources: BeachForecast[] = [];
@@ -43,7 +41,7 @@ class ForecastService {
 
   private enrichBeachData(
     points: ForecastPoint[],
-    beach: MyBeach
+    beach: Beach
   ): BeachForecast[] {
     return points.map((point) => ({
       lat: beach.lat,
