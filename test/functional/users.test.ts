@@ -33,22 +33,45 @@ describe('Users functional tests', () => {
   });
 
   it('Should return 409 when the email already exists', async () => {
-    const newUser = {
+    const user = {
       name: 'John Doe',
       email: 'john@mail.com',
       password: '1234',
     };
 
     // First: save new USER 01
-    await global.testRequest.post('/users').send(newUser);
+    await global.testRequest.post('/users').send(user);
 
     // Seconds: save new USER 02
-    const response = await global.testRequest.post('/users').send(newUser);
+    const response = await global.testRequest.post('/users').send(user);
 
     expect(response.status).toBe(409);
     expect(response.body).toEqual({
       code: 409,
       error: 'User validation failed: email: already exists in the database.',
     });
+  });
+});
+
+describe('When authenticating a user', () => {
+  beforeEach(async () => await UserModel.deleteMany());
+
+  it('should generate a token for a valid user', async () => {
+    const user = {
+      name: 'John Doe',
+      email: 'john@mail.com',
+      password: '1234',
+    };
+
+    await new UserModel(user).save();
+
+    const response = await global.testRequest.post('/users/authenticate').send({
+      email: user.email,
+      password: user.password,
+    });
+
+    expect(response.body).toEqual(
+      expect.objectContaining({ token: expect.any(String) })
+    );
   });
 });
