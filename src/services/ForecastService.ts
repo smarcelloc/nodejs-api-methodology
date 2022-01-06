@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
 import { Beach } from '@src/models/Beach';
 import InternalError from '@src/util/errors/InternalError';
 
-export interface BeachForecast extends Beach, ForecastPoint {}
+export interface BeachForecast extends Omit<Beach, 'userId'>, ForecastPoint {}
 
 export interface TimeForecast {
   time: string;

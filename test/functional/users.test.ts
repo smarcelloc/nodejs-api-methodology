@@ -1,7 +1,7 @@
 import UserModel, { User } from '@src/models/User';
 
 describe('Users functional tests', () => {
-  beforeAll(async () => await UserModel.deleteMany());
+  beforeEach(async () => await UserModel.deleteMany());
 
   it('should successfully save a new user', async () => {
     const user: User = {
@@ -12,6 +12,9 @@ describe('Users functional tests', () => {
 
     const response = await global.testRequest.post('/users').send(user);
     expect(response.status).toBe(201);
+
+    delete user.password;
+
     expect(response.body).toEqual(expect.objectContaining(user));
   });
 
@@ -29,5 +32,23 @@ describe('Users functional tests', () => {
     });
   });
 
-  it.skip('Should return 409 when the email already exists', async () => {});
+  it('Should return 409 when the email already exists', async () => {
+    const user = {
+      name: 'John Doe',
+      email: 'john@mail.com',
+      password: '1234',
+    };
+
+    // First: save new USER 01
+    await global.testRequest.post('/users').send(user);
+
+    // Seconds: save new USER 02
+    const response = await global.testRequest.post('/users').send(user);
+
+    expect(response.status).toBe(409);
+    expect(response.body).toEqual({
+      code: 409,
+      error: 'User validation failed: email: already exists in the database.',
+    });
+  });
 });

@@ -1,4 +1,4 @@
-import SetupServer from './server';
+import SetupServer from '@src/server';
 
 (async (): Promise<void> => {
   const server = new SetupServer();
