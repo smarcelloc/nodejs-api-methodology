@@ -7,7 +7,7 @@ export interface User {
   _id?: string;
   name: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
 export interface UserDocument extends Omit<User, '_id'>, Document {}
@@ -38,6 +38,7 @@ const schema = new mongoose.Schema<User>(
         ret.id = ret._id;
         delete ret.__v;
         delete ret._id;
+        delete ret.password;
       },
     },
   }
