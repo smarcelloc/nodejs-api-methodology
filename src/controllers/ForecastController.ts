@@ -16,7 +16,7 @@ class ForecastController {
     res: Response
   ): Promise<void> {
     try {
-      const beaches = await BeachModel.find({});
+      const beaches = await BeachModel.find();
       const forecastData = await forecastService.processForecastForBeaches(
         beaches
       );
