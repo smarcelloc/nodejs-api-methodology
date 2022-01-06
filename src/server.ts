@@ -1,12 +1,11 @@
 import { Server } from '@overnightjs/core';
 import { Application, json } from 'express';
 
+import env from '@src/config/env';
 import BeachController from '@src/controllers/BeachController';
 import ForecastController from '@src/controllers/ForecastController';
 import UserController from '@src/controllers/UserController';
 import * as database from '@src/util/database';
-
-import env from './config/env';
 
 class SetupServer extends Server {
   public constructor(private port: number = env.app.port) {
