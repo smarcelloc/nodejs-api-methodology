@@ -2,11 +2,14 @@ import nock from 'nock';
 
 import BeachModel, { BeachPosition } from '@src/models/Beach';
 import UserModel from '@src/models/User';
+import AuthService from '@src/services/AuthService';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
 
 describe('Beach forecast functional tests', () => {
+  let token = '';
+
   beforeEach(async () => {
     await BeachModel.deleteMany();
     await UserModel.deleteMany();
@@ -18,6 +21,7 @@ describe('Beach forecast functional tests', () => {
     };
 
     const user = await new UserModel(defaultUser).save();
+    token = AuthService.generateToken(user.toJSON());
 
     const defaultBeach = {
       lat: -33.792726,
@@ -47,7 +51,10 @@ describe('Beach forecast functional tests', () => {
       })
       .reply(200, stormGlassWeather3HoursFixture);
 
-    const { body, status } = await global.testRequest.get('/forecast');
+    const { body, status } = await global.testRequest
+      .get('/forecast')
+      .set({ 'x-access-token': token });
+
     expect(status).toBe(200);
     expect(body).toEqual(forecastListBeaches);
   });
@@ -64,7 +71,9 @@ describe('Beach forecast functional tests', () => {
       .query({ lat: '-33.792726', lng: '151.289824' })
       .replyWithError('Something went wrong');
 
-    const { status } = await global.testRequest.get(`/forecast`);
+    const { status } = await global.testRequest
+      .get(`/forecast`)
+      .set({ 'x-access-token': token });
 
     expect(status).toBe(500);
   });
