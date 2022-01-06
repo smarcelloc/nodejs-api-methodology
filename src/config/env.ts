@@ -7,6 +7,7 @@ const {
   APP_PORT,
   APP_ENV,
   APP_KEY,
+  APP_TOKEN_EXPIRES_IN,
   STORMGLASS_URI,
   STORMGLASS_KEY,
   STORMGLASS_SOURCE,
@@ -22,6 +23,7 @@ const env = {
     port: parseInt(APP_PORT || '3000'),
     env: APP_ENV || 'local',
     key: APP_KEY || '',
+    tokenExpiresIn: APP_TOKEN_EXPIRES_IN || '0',
   },
   stormGlass: {
     uri: STORMGLASS_URI || '',
