@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 export enum BeachPosition {
   SOUTH = 'S',
@@ -16,7 +16,9 @@ export interface Beach {
   position: string;
 }
 
-const schema = new mongoose.Schema<Beach>(
+interface BeachDocument extends Omit<Beach, '_id'>, Document {}
+
+const schema = new mongoose.Schema<BeachDocument>(
   {
     lat: {
       type: Number,
@@ -37,7 +39,7 @@ const schema = new mongoose.Schema<Beach>(
   },
   {
     toJSON: {
-      transform: (_, ret): void => {
+      transform: (_, ret: BeachDocument): void => {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
@@ -46,5 +48,5 @@ const schema = new mongoose.Schema<Beach>(
   }
 );
 
-const BeachModel = mongoose.model('Beach', schema);
+const BeachModel: Model<BeachDocument> = mongoose.model('Beach', schema);
 export default BeachModel;

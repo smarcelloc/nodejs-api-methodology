@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 import AuthService from '@src/services/AuthService';
 
@@ -10,13 +10,13 @@ export interface User {
   password?: string;
 }
 
-export interface UserDocument extends Omit<User, '_id'>, Document {}
+interface UserDocument extends Omit<User, '_id'>, Document {}
 
 export enum CUSTOM_VALIDATION {
   DUPLICATED = 'DUPLICATED',
 }
 
-const schema = new mongoose.Schema<User>(
+const schema = new mongoose.Schema<UserDocument>(
   {
     name: {
       type: String,
@@ -34,7 +34,7 @@ const schema = new mongoose.Schema<User>(
   },
   {
     toJSON: {
-      transform: (_, ret): void => {
+      transform: (_, ret: UserDocument): void => {
         ret.id = ret._id;
         delete ret.__v;
         delete ret._id;
@@ -66,5 +66,5 @@ schema.pre<UserDocument>('save', async function () {
   }
 });
 
-const UserModel = mongoose.model('User', schema);
+const UserModel: Model<UserDocument> = mongoose.model('User', schema);
 export default UserModel;
