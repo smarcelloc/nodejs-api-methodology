@@ -1,23 +1,33 @@
 import nock from 'nock';
 
-import BeachModel, { Beach, BeachPosition } from '@src/models/Beach';
+import BeachModel, { BeachPosition } from '@src/models/Beach';
+import UserModel from '@src/models/User';
 
 import forecastListBeaches from '@test/fixtures/forecast_list_beaches.json';
 import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
 
 describe('Beach forecast functional tests', () => {
   beforeEach(async () => {
-    await BeachModel.deleteMany({});
+    await BeachModel.deleteMany();
+    await UserModel.deleteMany();
 
-    const defaultBeach: Beach = {
+    const defaultUser = {
+      name: 'John Doe',
+      email: 'john@mail.com',
+      password: '1234',
+    };
+
+    const user = await new UserModel(defaultUser).save();
+
+    const defaultBeach = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
       position: BeachPosition.EAST,
+      userId: user.id,
     };
 
-    const beach = new BeachModel(defaultBeach);
-    await beach.save();
+    await new BeachModel(defaultBeach).save();
   });
 
   it('should return a forecast with just a few times', async () => {
