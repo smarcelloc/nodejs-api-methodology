@@ -12,7 +12,9 @@ describe('Users functional tests', () => {
 
     const response = await global.testRequest.post('/users').send(user);
     expect(response.status).toBe(201);
-    expect(response.body).toEqual(expect.objectContaining(user));
+
+    const { name, email } = user;
+    expect(response.body).toEqual(expect.objectContaining({ name, email }));
   });
 
   it('Should return 422 when there is a validation error', async () => {

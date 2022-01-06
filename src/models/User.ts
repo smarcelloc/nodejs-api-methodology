@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+import AuthService from '@src/services/AuthService';
 
 export interface User {
   _id?: string;
@@ -7,6 +9,8 @@ export interface User {
   email: string;
   password: string;
 }
+
+export interface UserDocument extends Omit<User, '_id'>, Document {}
 
 export enum CUSTOM_VALIDATION {
   DUPLICATED = 'DUPLICATED',
@@ -47,6 +51,19 @@ schema.path('email').validate(
   'already exists in the database.',
   CUSTOM_VALIDATION.DUPLICATED
 );
+
+schema.pre<UserDocument>('save', async function () {
+  try {
+    if (this.password && this.isModified('password')) {
+      this.password = await AuthService.hashPassword(this.password);
+    }
+  } catch (error: any) {
+    console.error(
+      `Error hashing the password for the user ${this.name}`,
+      error
+    );
+  }
+});
 
 const UserModel = mongoose.model('User', schema);
 export default UserModel;
