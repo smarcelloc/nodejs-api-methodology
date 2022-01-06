@@ -1,12 +1,14 @@
-import { Controller, Get } from '@overnightjs/core';
+import { ClassMiddleware, Controller, Get } from '@overnightjs/core';
 import { Request, Response } from 'express';
 
+import authMiddleware from '@src/middlewares/authMiddleware';
 import BeachModel from '@src/models/Beach';
 import ForecastService from '@src/services/ForecastService';
 
 const forecastService = new ForecastService();
 
 @Controller('forecast')
+@ClassMiddleware(authMiddleware)
 class ForecastController {
   @Get('')
   public async getForecastForgeLoggedUser(
