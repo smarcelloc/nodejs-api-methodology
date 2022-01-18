@@ -7,7 +7,7 @@
     "test:unit": "jest",
     "test:functional": "jest --projects ./test --forceExit --runInBand",
     "lint": "eslint './src/**/*.ts' './test/**/*.ts'",
-    "lint:fix": "eslint --fix './src/**/*.ts', './test/**/*.ts'"
+    "lint:fix": "eslint --fix './src/**/*.ts' './test/**/*.ts'"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
