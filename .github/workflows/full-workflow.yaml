@@ -2,6 +2,10 @@ name: Complete Workflow
 
 on: ['push']
 
+env:
+  APP_KEY: some-key
+  APP_TOKEN_EXPIRES_IN: 1d
+
 jobs:
   build:
     runs-on: ubuntu-latest
