@@ -10,17 +10,11 @@ export interface DecodedUser extends Omit<User, '_id'> {
 }
 
 class AuthService {
-  public async hashPassword(
-    password: string,
-    salt: number | string = 10
-  ): Promise<string> {
+  public async hashPassword(password: string, salt: number | string = 10): Promise<string> {
     return bcrypt.hash(password, salt);
   }
 
-  public async comparePassword(
-    password: string,
-    hash: string
-  ): Promise<boolean> {
+  public async comparePassword(password: string, hash: string): Promise<boolean> {
     return bcrypt.compare(password, hash);
   }
 

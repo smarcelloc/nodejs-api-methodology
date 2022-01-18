@@ -12,15 +12,10 @@ const forecastService = new ForecastService();
 @ClassMiddleware(AuthMiddleware)
 class ForecastController {
   @Get('')
-  public async getForecastForgeLoggedUser(
-    _: Request,
-    res: Response
-  ): Promise<void> {
+  public async getForecastForgeLoggedUser(_: Request, res: Response): Promise<void> {
     try {
       const beaches = await BeachModel.find();
-      const forecastData = await forecastService.processForecastForBeaches(
-        beaches
-      );
+      const forecastData = await forecastService.processForecastForBeaches(beaches);
       res.status(200).send(forecastData);
     } catch (error: any) {
       logger.error(error);

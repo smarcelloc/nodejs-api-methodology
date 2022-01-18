@@ -17,9 +17,7 @@ describe('When authenticating a user', () => {
       password: user.password,
     });
 
-    expect(response.body).toEqual(
-      expect.objectContaining({ token: expect.any(String) })
-    );
+    expect(response.body).toEqual(expect.objectContaining({ token: expect.any(String) }));
   });
 
   it('Should return UNAUTHORIZED if the user with the given email is not found', async () => {

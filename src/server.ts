@@ -38,11 +38,7 @@ class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    this.addControllers([
-      new ForecastController(),
-      new BeachController(),
-      new UserController(),
-    ]);
+    this.addControllers([new ForecastController(), new BeachController(), new UserController()]);
   }
 
   private async setupDatabase(): Promise<void> {

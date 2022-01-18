@@ -17,9 +17,7 @@ abstract class BaseController {
 
   private handleClientErrors(error: mongoose.Error.ValidationError) {
     const duplicatedKindErrors = Object.values(error.errors).filter(
-      (error) =>
-        error.name === 'ValidatorError' &&
-        error.kind === CUSTOM_VALIDATION.DUPLICATED
+      (error) => error.name === 'ValidatorError' && error.kind === CUSTOM_VALIDATION.DUPLICATED
     );
 
     if (duplicatedKindErrors.length > 0) {

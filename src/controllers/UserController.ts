@@ -35,9 +35,7 @@ class UserController extends BaseController {
     );
 
     if (!validatePassword) {
-      return res
-        .status(401)
-        .send({ code: 401, error: 'Password does not match!' });
+      return res.status(401).send({ code: 401, error: 'Password does not match!' });
     }
 
     const token = AuthService.generateToken(user.toJSON());

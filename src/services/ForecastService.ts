@@ -19,9 +19,7 @@ export class ForecastProcessingInternalError extends InternalError {
 class ForecastService {
   constructor(private stormGlass = new StormGlass()) {}
 
-  public async processForecastForBeaches(
-    beaches: Beach[]
-  ): Promise<TimeForecast[]> {
+  public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
     logger.info(`Preparing the forecast for ${beaches.length} beaches`);
 
     try {
@@ -43,10 +41,7 @@ class ForecastService {
     }
   }
 
-  private enrichBeachData(
-    points: ForecastPoint[],
-    beach: Beach
-  ): BeachForecast[] {
+  private enrichBeachData(points: ForecastPoint[], beach: Beach): BeachForecast[] {
     return points.map((point) => ({
       lat: beach.lat,
       lng: beach.lng,

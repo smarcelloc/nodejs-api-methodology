@@ -9,9 +9,7 @@ jest.mock('@src/util/request');
 
 describe('StormGlass client', () => {
   const mockRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
-  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<
-    typeof HTTPUtil.Request
-  >;
+  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<typeof HTTPUtil.Request>;
 
   const latituteFake = -33.792726;
   const longitudeFake = 151.289824;
@@ -42,9 +40,7 @@ describe('StormGlass client', () => {
 
     const stormGlass = new StormGlass(mockRequest);
 
-    await expect(
-      stormGlass.fetchPoints(latituteFake, longitudeFake)
-    ).rejects.toThrow(
+    await expect(stormGlass.fetchPoints(latituteFake, longitudeFake)).rejects.toThrow(
       'Unexpected error when trying to communicate to StormGlass: Network Error'
     );
   });
@@ -61,9 +57,7 @@ describe('StormGlass client', () => {
 
     const stormGlass = new StormGlass(mockRequest);
 
-    await expect(
-      stormGlass.fetchPoints(latituteFake, longitudeFake)
-    ).rejects.toThrow(
+    await expect(stormGlass.fetchPoints(latituteFake, longitudeFake)).rejects.toThrow(
       'Unexpected error returned by the StormGlass service: Error: {"errors":["Rate Limit reached"]} Code: 429'
     );
   });

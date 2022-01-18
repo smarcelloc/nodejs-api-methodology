@@ -21,14 +21,10 @@ describe('Forecast Service', () => {
   ];
 
   it('should return the forecast for a list of beaches', async () => {
-    mockedStormGlassService.fetchPoints.mockResolvedValue(
-      stormGlassNormalizedResponseFixture
-    );
+    mockedStormGlassService.fetchPoints.mockResolvedValue(stormGlassNormalizedResponseFixture);
 
     const forecastService = new ForecastService(mockedStormGlassService);
-    const beachesWithRating = await forecastService.processForecastForBeaches(
-      beaches
-    );
+    const beachesWithRating = await forecastService.processForecastForBeaches(beaches);
 
     expect(beachesWithRating).toEqual(forecastListBeaches);
   });
@@ -48,9 +44,7 @@ describe('Forecast Service', () => {
 
     const forecastService = new ForecastService(mockedStormGlassService);
 
-    await expect(
-      forecastService.processForecastForBeaches(beaches)
-    ).rejects.toThrow(
+    await expect(forecastService.processForecastForBeaches(beaches)).rejects.toThrow(
       'Unexpected error during the forecast processing: Error fetching data'
     );
   });
