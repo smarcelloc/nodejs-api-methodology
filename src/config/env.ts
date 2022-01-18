@@ -22,13 +22,15 @@ const env = {
     description: APP_DESCRIPTION || '',
     port: parseInt(APP_PORT || '3000'),
     env: APP_ENV || 'local',
-    key: APP_KEY || '',
-    tokenExpiresIn: APP_TOKEN_EXPIRES_IN || '',
+    key: APP_KEY || 'some-key',
+    tokenExpiresIn: APP_TOKEN_EXPIRES_IN || '1d',
   },
   stormGlass: {
-    uri: STORMGLASS_URI || '',
+    uri: STORMGLASS_URI || 'https://api.stormglass.io/v2',
     key: STORMGLASS_KEY || '',
-    params: STORMGLASS_PARAMS || '',
+    params:
+      STORMGLASS_PARAMS ||
+      'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed',
     source: STORMGLASS_SOURCE || 'noaa',
   },
   mongoDB: {
