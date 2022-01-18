@@ -2,6 +2,9 @@ name: Complete Workflow
 
 on: ['push']
 
+env:
+  APP_KEY: 'some-key'
+
 jobs:
   build:
     runs-on: ubuntu-latest
