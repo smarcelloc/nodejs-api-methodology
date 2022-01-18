@@ -18,14 +18,10 @@
       "warn",
       {
         "newlinesBetween": "always",
-        "groups": [
-          "module",
-          "/^@src/",
-          "/^@test/",
-          ["parent", "sibling", "index"]
-        ],
+        "groups": ["module", "/^@src/", "/^@test/", ["parent", "sibling", "index"]],
         "alphabetize": { "order": "asc", "ignoreCase": true }
       }
-    ]
+    ],
+    "no-console": "error"
   }
 }

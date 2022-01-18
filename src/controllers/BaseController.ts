@@ -2,6 +2,7 @@ import { Response } from 'express';
 import mongoose from 'mongoose';
 
 import { CUSTOM_VALIDATION } from '@src/models/User';
+import logger from '@src/util/logger';
 
 abstract class BaseController {
   protected sendCreateUpdateErrorResponse(res: Response, error: unknown): void {
@@ -9,6 +10,7 @@ abstract class BaseController {
       const clientErrors = this.handleClientErrors(error);
       res.status(clientErrors.code).send(clientErrors);
     } else {
+      logger.error(error);
       res.status(500).send({ code: 500, error: 'Internal Server Error' });
     }
   }

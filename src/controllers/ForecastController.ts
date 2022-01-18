@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import AuthMiddleware from '@src/middlewares/AuthMiddleware';
 import BeachModel from '@src/models/Beach';
 import ForecastService from '@src/services/ForecastService';
+import logger from '@src/util/logger';
 
 const forecastService = new ForecastService();
 
@@ -22,6 +23,7 @@ class ForecastController {
       );
       res.status(200).send(forecastData);
     } catch (error: any) {
+      logger.error(error);
       res.status(500).send({ code: 500, error: 'Internal Server Error' });
     }
   }

@@ -13,6 +13,8 @@ const {
   STORMGLASS_SOURCE,
   STORMGLASS_PARAMS,
   MONGODB_URI,
+  LOGGER_ENABLE,
+  LOGGER_LEVEL,
 } = process.env;
 
 const env = {
@@ -35,6 +37,10 @@ const env = {
   },
   mongoDB: {
     uri: MONGODB_URI || '',
+  },
+  logger: {
+    enable: !!(LOGGER_ENABLE || false),
+    level: LOGGER_LEVEL || 'info',
   },
 };
 
