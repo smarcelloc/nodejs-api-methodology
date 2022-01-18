@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import AuthService from '@src/services/AuthService';
 
-const authMiddleware = (
+const AuthMiddleware = (
   req: Partial<Request>,
   res: Partial<Response>,
   next: NextFunction
@@ -22,4 +22,4 @@ const authMiddleware = (
   }
 };
 
-export default authMiddleware;
+export default AuthMiddleware;

@@ -1,4 +1,4 @@
-import authMiddleware from '@src/middlewares/authMiddleware';
+import AuthMiddleware from '@src/middlewares/AuthMiddleware';
 import AuthService from '@src/services/AuthService';
 
 describe('AuthMiddleware', () => {
@@ -14,7 +14,7 @@ describe('AuthMiddleware', () => {
     const nextFake = jest.fn();
     const resFake = {};
 
-    authMiddleware(reqFake, resFake, nextFake);
+    AuthMiddleware(reqFake, resFake, nextFake);
     expect(nextFake).toHaveBeenCalled();
   });
 
@@ -32,7 +32,7 @@ describe('AuthMiddleware', () => {
     };
     const nextFake = jest.fn();
 
-    authMiddleware(reqFake, resFake as object, nextFake);
+    AuthMiddleware(reqFake, resFake as object, nextFake);
     expect(resFake.status).toHaveBeenCalledWith(401);
     expect(sendMock).toHaveBeenCalledWith({
       code: 401,
@@ -54,7 +54,7 @@ describe('AuthMiddleware', () => {
     };
     const nextFake = jest.fn();
 
-    authMiddleware(reqFake, resFake as object, nextFake);
+    AuthMiddleware(reqFake, resFake as object, nextFake);
     expect(resFake.status).toHaveBeenCalledWith(401);
     expect(sendMock).toHaveBeenCalledWith({
       code: 401,
