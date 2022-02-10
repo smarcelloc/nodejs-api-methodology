@@ -1,9 +1,8 @@
+import config from 'config';
 import mongoose, { Mongoose } from 'mongoose';
 
-import env from '@src/config/env';
-
 export const connect = async (): Promise<Mongoose> => {
-  return await mongoose.connect(env.mongoDB.uri);
+  return await mongoose.connect(config.get('App.database.mongoUrl'));
 };
 
 export const close = async (): Promise<void> => {

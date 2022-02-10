@@ -1,13 +1,15 @@
 import bcrypt from 'bcrypt';
+import config, { IConfig } from 'config';
 import jwt from 'jsonwebtoken';
 
-import env from '@src/config/env';
 import { User } from '@src/models/User';
 
 // version of the user that is send to via API and decoded from the Json Web Token
 export interface DecodedUser extends Omit<User, '_id'> {
   id: string;
 }
+
+const authConfig: IConfig = config.get('App.auth');
 
 class AuthService {
   public async hashPassword(password: string, salt: number | string = 10): Promise<string> {
@@ -19,13 +21,13 @@ class AuthService {
   }
 
   public generateToken(payload: object): string {
-    return jwt.sign(payload, env.app.key, {
-      expiresIn: env.app.tokenExpiresIn,
+    return jwt.sign(payload, authConfig.get('key'), {
+      expiresIn: authConfig.get('tokenExpiresIn'),
     });
   }
 
   public decodeToken(token: string): DecodedUser {
-    return jwt.verify(token, env.app.key) as DecodedUser;
+    return jwt.verify(token, authConfig.get('key')) as DecodedUser;
   }
 }
 

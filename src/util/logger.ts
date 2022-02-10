@@ -1,8 +1,7 @@
+import config from 'config';
 import pino from 'pino';
 
-import env from '@src/config/env';
-
 export default pino({
-  enabled: env.logger.enable,
-  level: env.logger.level,
+  enabled: config.get('App.logger.enabled'),
+  level: config.get('App.logger.level'),
 });
