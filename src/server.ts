@@ -8,6 +8,8 @@ import UserController from '@src/controllers/UserController';
 import * as database from '@src/util/database';
 import logger from '@src/util/logger';
 
+import HomeController from './controllers/HomeController';
+
 class SetupServer extends Server {
   public constructor(private port: number = config.get('App.port')) {
     super();
@@ -38,7 +40,12 @@ class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    this.addControllers([new ForecastController(), new BeachController(), new UserController()]);
+    this.addControllers([
+      new HomeController(),
+      new ForecastController(),
+      new BeachController(),
+      new UserController(),
+    ]);
   }
 
   private async setupDatabase(): Promise<void> {
