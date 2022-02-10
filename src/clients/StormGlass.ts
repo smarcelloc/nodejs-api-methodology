@@ -1,4 +1,5 @@
-import env from '@src/config/env';
+import config, { IConfig } from 'config';
+
 import InternalError from '@src/util/errors/InternalError';
 import * as HTTPUtil from '@src/util/request';
 
@@ -55,11 +56,16 @@ export class StormGlassResponseInternalError extends InternalError {
   }
 }
 
+const stormGlassConfig: IConfig = config.get('App.resources.StormGlass');
+
 class StormGlass {
-  readonly uri = env.stormGlass.uri;
-  readonly source = env.stormGlass.source;
-  readonly params = env.stormGlass.params;
-  readonly key = env.stormGlass.key;
+  readonly uri = stormGlassConfig.get<string>('apiUrl');
+  readonly source = 'noaa';
+
+  readonly params =
+    'swellDirection,swellHeight,swellPeriod,waveDirection,waveHeight,windDirection,windSpeed';
+
+  readonly key = stormGlassConfig.get<string>('apiToken');
 
   readonly requestConfig: HTTPUtil.RequestConfig = {
     headers: {
