@@ -1,14 +1,14 @@
 import { Server } from '@overnightjs/core';
 import { Application, json } from 'express';
+import expressPino from 'express-pino-logger';
 
 import BeachController from '@src/controllers/BeachController';
 import ForecastController from '@src/controllers/ForecastController';
+import HomeController from '@src/controllers/HomeController';
 import UserController from '@src/controllers/UserController';
 import config from '@src/util/config';
 import * as database from '@src/util/database';
 import logger from '@src/util/logger';
-
-import HomeController from './controllers/HomeController';
 
 class SetupServer extends Server {
   public constructor(private port: number = config.get('App.port')) {
@@ -37,6 +37,7 @@ class SetupServer extends Server {
 
   private middlewares(): void {
     this.app.use(json());
+    this.app.use(expressPino(logger));
   }
 
   private setupControllers(): void {
