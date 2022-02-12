@@ -1,10 +1,10 @@
 import { Server } from '@overnightjs/core';
-import config from 'config';
 import { Application, json } from 'express';
 
 import BeachController from '@src/controllers/BeachController';
 import ForecastController from '@src/controllers/ForecastController';
 import UserController from '@src/controllers/UserController';
+import config from '@src/util/config';
 import * as database from '@src/util/database';
 import logger from '@src/util/logger';
 

@@ -1,5 +1,4 @@
-import config, { IConfig } from 'config';
-
+import config, { IConfig } from '@src/util/config';
 import InternalError from '@src/util/errors/InternalError';
 import * as HTTPUtil from '@src/util/request';
 
