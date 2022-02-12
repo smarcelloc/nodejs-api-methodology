@@ -1,4 +1,5 @@
 import { Server } from '@overnightjs/core';
+import cors from 'cors';
 import { Application, json } from 'express';
 import expressPino from 'express-pino-logger';
 
@@ -38,6 +39,7 @@ class SetupServer extends Server {
   private middlewares(): void {
     this.app.use(json());
     this.app.use(expressPino(logger));
+    this.app.use(cors());
   }
 
   private setupControllers(): void {
