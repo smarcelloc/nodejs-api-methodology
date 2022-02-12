@@ -2,16 +2,20 @@ import { Response } from 'express';
 import mongoose from 'mongoose';
 
 import { CUSTOM_VALIDATION } from '@src/models/User';
+import ApiError, { IApiError } from '@src/util/errors/ApiError';
 import logger from '@src/util/logger';
 
 abstract class BaseController {
   protected sendCreateUpdateErrorResponse(res: Response, error: unknown): void {
     if (error instanceof mongoose.Error.ValidationError) {
       const clientErrors = this.handleClientErrors(error);
-      res.status(clientErrors.code).send(clientErrors);
+
+      res
+        .status(clientErrors.code)
+        .send(ApiError.format({ code: clientErrors.code, message: clientErrors.error }));
     } else {
       logger.error(error);
-      res.status(500).send({ code: 500, error: 'Internal Server Error' });
+      res.status(500).send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
     }
   }
 
@@ -25,6 +29,10 @@ abstract class BaseController {
     }
 
     return { code: 422, error: error.message };
+  }
+
+  protected sendErrorResponse(res: Response, apiError: IApiError) {
+    return res.status(apiError.code).send(ApiError.format(apiError));
   }
 }
 

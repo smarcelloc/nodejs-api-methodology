@@ -23,10 +23,7 @@ class UserController extends BaseController {
     const user = await UserModel.findOne({ email: req.body.email });
 
     if (!user) {
-      return res.status(401).send({
-        code: 401,
-        error: 'User not found!',
-      });
+      return this.sendErrorResponse(res, { code: 401, message: 'User not found!' });
     }
 
     const validatePassword = await AuthService.comparePassword(
@@ -35,7 +32,7 @@ class UserController extends BaseController {
     );
 
     if (!validatePassword) {
-      return res.status(401).send({ code: 401, error: 'Password does not match!' });
+      return this.sendErrorResponse(res, { code: 401, message: 'Password does not match!' });
     }
 
     const token = AuthService.generateToken(user.toJSON());
