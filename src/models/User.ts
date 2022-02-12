@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import mongoose, { Document, Model } from 'mongoose';
 
 import AuthService from '@src/services/AuthService';

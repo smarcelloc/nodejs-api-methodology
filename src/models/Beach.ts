@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import mongoose, { Document, Model, Schema, SchemaDefinitionProperty } from 'mongoose';
 
 export enum BeachPosition {
