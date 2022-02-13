@@ -1,2 +1,15 @@
+/.github
+/.git
+/dist
 /node_modules
-/db
+
+.DS_Store
+.gitignore
+.env.example
+.eslintignore
+.eslintrc.json
+.prettierrc
+.editorconfig
+.dockerignore
+Dockerfile
+docker-compose.yml

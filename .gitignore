@@ -128,5 +128,5 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-# Docker
-/db
+# Other files
+.DS_Store

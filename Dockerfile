@@ -5,7 +5,7 @@ ARG WORKDIR
 WORKDIR ${WORKDIR}
 
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --no-progress
 
 COPY . .
 CMD [ "yarn", "dev" ]
