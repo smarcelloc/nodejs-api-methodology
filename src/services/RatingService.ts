@@ -29,8 +29,7 @@ class RatingService {
     );
     const swellHeightRating = this.getRatingForSwellSize(point.swellHeight);
     const swellPeriodRating = this.getRatingForSwellPeriod(point.swellPeriod);
-    const finalRating =
-      (windAndWaveRating + swellHeightRating + swellPeriodRating) / 3;
+    const finalRating = (windAndWaveRating + swellHeightRating + swellPeriodRating) / 3;
     return Math.round(finalRating);
   }
 
@@ -48,10 +47,7 @@ class RatingService {
     return 3;
   }
 
-  private isWindOffShore(
-    waveDirection: string,
-    windDirection: string
-  ): boolean {
+  private isWindOffShore(waveDirection: string, windDirection: string): boolean {
     return (
       (waveDirection === BeachPosition.NOUTH &&
         windDirection === BeachPosition.SOUTH &&
@@ -91,17 +87,11 @@ class RatingService {
    * Rate will start from 1 given there will always some wave height
    */
   public getRatingForSwellSize(height: number): number {
-    if (
-      height >= waveHeights.ankleToKnee.min &&
-      height < waveHeights.ankleToKnee.max
-    ) {
+    if (height >= waveHeights.ankleToKnee.min && height < waveHeights.ankleToKnee.max) {
       return 2;
     }
 
-    if (
-      height >= waveHeights.waistHigh.min &&
-      height < waveHeights.waistHigh.max
-    ) {
+    if (height >= waveHeights.waistHigh.min && height < waveHeights.waistHigh.max) {
       return 3;
     }
 
