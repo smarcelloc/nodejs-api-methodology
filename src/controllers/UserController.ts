@@ -1,7 +1,8 @@
-import { Controller, Post } from '@overnightjs/core';
+import { Controller, Get, Middleware, Post } from '@overnightjs/core';
 import { Request, Response } from 'express';
 
 import BaseController from '@src/controllers/BaseController';
+import AuthMiddleware from '@src/middlewares/AuthMiddleware';
 import UserModel from '@src/models/User';
 import AuthService from '@src/services/AuthService';
 
@@ -38,6 +39,21 @@ class UserController extends BaseController {
     const token = AuthService.generateToken(user.toJSON());
 
     return res.status(200).send({ ...user.toJSON(), ...{ token } });
+  }
+
+  @Get('me')
+  @Middleware(AuthMiddleware)
+  public async me(req: Request, res: Response): Promise<Response> {
+    const email = req.decoded ? req.decoded.email : undefined;
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return this.sendErrorResponse(res, {
+        code: 404,
+        message: 'User not found!',
+      });
+    }
+
+    return res.send({ user });
   }
 }
 
