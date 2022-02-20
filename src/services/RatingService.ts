@@ -1,5 +1,5 @@
-import { Beach, BeachPosition } from '@src/models/Beach';
 import { ForecastPoint } from '@src/clients/StormGlass';
+import { Beach, BeachPosition } from '@src/models/Beach';
 
 // meters
 const waveHeights = {
@@ -17,7 +17,7 @@ const waveHeights = {
   },
 };
 
-export class RatingService {
+class RatingService {
   constructor(private beach: Beach) {}
 
   public getRateForPoint(point: ForecastPoint): number {
@@ -132,3 +132,5 @@ export class RatingService {
     return BeachPosition.EAST;
   }
 }
+
+export default RatingService;
