@@ -1,8 +1,12 @@
 import { Server } from '@overnightjs/core';
 import cors from 'cors';
 import { Application, json } from 'express';
+import * as OpenApiValidator from 'express-openapi-validator';
+import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 import expressPino from 'express-pino-logger';
+import swaggerUi from 'swagger-ui-express';
 
+import apiSchema from '@src/api-schema.json';
 import BeachController from '@src/controllers/BeachController';
 import ForecastController from '@src/controllers/ForecastController';
 import HomeController from '@src/controllers/HomeController';
@@ -20,6 +24,7 @@ class SetupServer extends Server {
     this.middlewares();
     this.setupControllers();
     await this.setupDatabase();
+    await this.docsSetup();
   }
 
   public start(): void {
@@ -39,7 +44,7 @@ class SetupServer extends Server {
   private middlewares(): void {
     this.app.use(json());
     this.app.use(expressPino(logger));
-    this.app.use(cors());
+    this.app.use(cors({ origin: '*' }));
   }
 
   private setupControllers(): void {
@@ -53,6 +58,17 @@ class SetupServer extends Server {
 
   private async setupDatabase(): Promise<void> {
     await database.connect();
+  }
+
+  private async docsSetup(): Promise<void> {
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
+    this.app.use(
+      OpenApiValidator.middleware({
+        apiSpec: apiSchema as OpenAPIV3.Document,
+        validateRequests: false, // will be implemented in step2
+        validateResponses: false, // will be implemented in step2
+      })
+    );
   }
 }
 
