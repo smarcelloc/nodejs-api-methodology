@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import StormGlass, { ForecastPoint } from '@src/clients/StormGlass';
 import { Beach } from '@src/models/Beach';
 import RatingService from '@src/services/RatingService';
@@ -17,27 +19,38 @@ export class ForecastProcessingInternalError extends InternalError {
   }
 }
 
-class ForecastService {
+export class ForecastService {
   constructor(
     protected stormGlass = new StormGlass(),
     protected Rating: typeof RatingService = RatingService
   ) {}
 
   public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
-    const pointsWithCorrectSources: BeachForecast[] = [];
-    logger.info(`Preparing the forecast for ${beaches.length} beaches`);
     try {
-      for (const beach of beaches) {
-        const rating = new this.Rating(beach);
-        const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);
-        const enrichedBeachData = this.enrichBeachData(points, beach, rating);
-        pointsWithCorrectSources.push(...enrichedBeachData);
-      }
-      return this.mapForecastByTime(pointsWithCorrectSources);
+      const beachForecast = await this.calculateRating(beaches);
+      const timeForecast = this.mapForecastByTime(beachForecast);
+      return timeForecast.map((t) => ({
+        time: t.time,
+        // TODO Allow ordering to be dynamic
+        // Sorts the beaches by its ratings
+        forecast: _.orderBy(t.forecast, ['rating'], ['desc']),
+      }));
     } catch (error) {
       logger.error(error);
       throw new ForecastProcessingInternalError((error as Error).message);
     }
+  }
+
+  private async calculateRating(beaches: Beach[]): Promise<BeachForecast[]> {
+    const pointsWithCorrectSources: BeachForecast[] = [];
+    logger.info(`Preparing the forecast for ${beaches.length} beaches`);
+    for (const beach of beaches) {
+      const rating = new this.Rating(beach);
+      const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);
+      const enrichedBeachData = this.enrichBeachData(points, beach, rating);
+      pointsWithCorrectSources.push(...enrichedBeachData);
+    }
+    return pointsWithCorrectSources;
   }
 
   private mapForecastByTime(forecast: BeachForecast[]): TimeForecast[] {
