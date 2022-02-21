@@ -15,7 +15,7 @@ abstract class BaseController {
         .send(ApiError.format({ code: clientErrors.code, message: clientErrors.error }));
     } else {
       logger.error(error);
-      res.status(500).send(ApiError.format({ code: 500, message: 'Internal Server Error' }));
+      res.status(500).send(ApiError.format({ code: 500, message: 'Something went wrong!' }));
     }
   }
 
