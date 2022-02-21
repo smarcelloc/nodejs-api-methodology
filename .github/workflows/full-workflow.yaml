@@ -1,6 +1,14 @@
 name: Complete Workflow
 
-on: ['push']
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 env:
   MONGODB_URI: mongodb://localhost:27017/surf-forecast
